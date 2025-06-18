@@ -1,11 +1,12 @@
 from flask import Flask
 from flask_cors import CORS
 from dotenv import load_dotenv
-from api.config import Config
+from app.config import Config
 from .db import db
 
 
 load_dotenv()
+
 
 def create_app():
     app = Flask(__name__)
@@ -14,7 +15,8 @@ def create_app():
 
     db.init_app(app)
 
-    from .routes import bp as api_bp
+    from .api.routes import bp as api_bp
+
     app.register_blueprint(api_bp)
 
     return app

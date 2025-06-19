@@ -1,11 +1,8 @@
+import app.load_env
 from flask import Flask
 from flask_cors import CORS
-from dotenv import load_dotenv
 from app.config import Config
 from .db import db
-
-
-load_dotenv()
 
 
 def create_app():

@@ -11,17 +11,21 @@ def get_all_pets():
     pets = Pet.query.all()
     return jsonify([p.to_dict() for p in pets]), 200
 
+
 def get_most_recent_pets():
     recent_pets = Pet.query.order_by(Pet.created_at.desc()).limit(12).all()
     return jsonify([p.to_dict() for p in recent_pets]), 200
+
 
 def get_my_pets(userId):
     my_pets = Pet.query.filter_by(listed_by_id=userId)
     return jsonify([pet.to_dict() for pet in my_pets])
 
+
 def get_pet_details(petId):
     pet = Pet.query.filter_by(id=petId).one()
     return jsonify(pet.to_dict())
+
 
 def create_pet(data):
     add_pet_dto = AddPetDTO(**data)
@@ -54,3 +58,13 @@ def update_pet(petId, data):
     pet.gender = update_pet_dto.gender
     db.session.commit()
     return jsonify(pet.to_dict()), 200
+
+
+def delete_pet(petId):
+    pet = Pet.query.get(petId)
+    if pet:
+        db.session.delete(pet)
+        db.session.commit()
+        return jsonify({"message": "Pet deleted successfully"}), 200
+    else:
+        return jsonify({"message": "Pet deleted successfully"}), 200
